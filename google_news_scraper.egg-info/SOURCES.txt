@@ -1,0 +1,12 @@
+CHANGELOG.txt
+LICENSE.txt
+MANIFEST.in
+README.txt
+requirements.txt
+setup.py
+google_news_scraper.egg-info/PKG-INFO
+google_news_scraper.egg-info/SOURCES.txt
+google_news_scraper.egg-info/dependency_links.txt
+google_news_scraper.egg-info/top_level.txt
+node_modules/chromedriver/LICENSE.txt
+scraper/__init__.py

@@ -1,0 +1,12 @@
+Metadata-Version: 1.1
+Name: google-news-scraper
+Version: 0.0.1
+Summary: Scrapes Google News article data
+Home-page: https://pypi.org/project/google-news-scraper/
+Author: Geminid Systems
+Author-email: UNKNOWN
+License: UNKNOWN
+Description: UNKNOWN
+Keywords: web scraper,web crawler,crawler,scraper,google news scraper,google news crawler,google news automation,google news automator,google,google news
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
