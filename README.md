@@ -126,6 +126,12 @@ Possible values:
 
 - `By.ID`
 - `By.CLASS_NAME`
+- `By.CSS_SELECTOR`
+- `By.LINK_TEXT`
+- `By.NAME`
+- `By.PARTIAL_LINK_TEXT`
+- `By.TAG_NAME`
+- `By.XPATH`
 
 ---
 
