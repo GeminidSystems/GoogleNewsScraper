@@ -28,25 +28,6 @@ class Error(Exception):
 
 
 class GoogleNewsScraper:
-    '''
-    :automation_options dict:
-        :keyword str: word(s) that will be inputted into Google Search
-        :date_range str or int: filtering how recent data should be. Can be any of the following:
-            - Past hour
-            - Past 24 hours
-            - Past week
-            - Past month
-            - Past year
-            - Archives
-        :pages int or str: number of pages that should be scraped clean of data (defaults to 'max')
-        :pagination_pause_per_page int: waits a certain amount of time in seconds before a new page is scraped.
-        Time may be have to be increased depending on how early on Google detects this automation script and presents a Captcha.
-
-    :driver str or driver: any web driver (firefox, chrome, etc...), or pass 'chrome' to get the default
-
-    :chrome_driver_arguments list: collection of arguments that the chrome driver interface will inherit. Only alter this param if the 'driver' param is set to the default of 'chrome' 
-    '''
-
     def __init__(self, driver, automation_options={}, chrome_driver_arguments=[]):
         if driver == 'chrome':
             self.driver = get_chrome_driver(chrome_driver_arguments)
