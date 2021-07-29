@@ -133,7 +133,7 @@ Possible values:
 GoogleNewsScraper.scrape()
 ```
 
-Begins the scraping process \and Returns a two-dimensional list (each list contains multiple objects, with each object representing one article)
+Begins the scraping process and Returns a two-dimensional list (each list contains multiple objects, with each object representing one article)
 
 **Here is an example of what type of data a single article-object will contain:**
 
