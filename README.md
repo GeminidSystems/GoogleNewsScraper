@@ -80,7 +80,7 @@ Click this link to view all possible arguments: https://chromedriver.chromium.or
 **This method is both public and private, though it really should only be used by the class**
 
 ```Python
-locate_html_element(self, driver, element, selector, wait_seconds=30)
+locate_html_element(self, driver, element, selector, wait_seconds)
 ```
 
 ---
@@ -129,13 +129,32 @@ Possible values:
 
 ---
 
+| Name         | Type   | Required |
+| ------------ | ------ | -------- |
+| wait_seconds | number | no       |
+
+**default**: `30`
+
+Description:
+
+- Waits a certain number of seconds in order to locate an HTML element
+- If an element exists on the page, it will be located instantaneously
+- If an element does not yet exist, (if it will appear once a request is made, for instance)
+- wait_seconds may have to be increased depending on how long it takes for an element to appear
+
+**please note**: 30 seconds is plenty; this time would rarely have to be increased
+
+---
+
 ```Python
 GoogleNewsScraper.scrape()
 ```
 
-Begins the scraping process and Returns a two-dimensional list (each list contains multiple objects, with each object representing one article)
+- Begins the scraping process and Returns a two-dimensional list
+- Each list represents a single page, and contains multiple objects
+- Each object representing one article
 
-**Here is an example of what type of data a single article-object will contain:**
+**Example of what type of data a single article-object will contain:**
 
 - `'description'`: The preview description of the news article
 - `'title'`: The title of the news article
