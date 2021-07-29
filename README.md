@@ -21,14 +21,14 @@ GoogleNewsScraper = importlib.import_module('google-news-scraper').GoogleNewsScr
 ## Instantiating Scraper
 
 ```Python
-GoogleNewsScraper(driver, automation_options, chrome_driver_arguments)
+GoogleNewsScraper(driver, automation_options, chrome_driver_arguments).scrape()
 ```
 
 **Constructor Parameters**
 
-| Name   | Type                | Required | Description |
-| ------ | ------------------- | -------- | ----------- |
-| driver | string or interface | no       | See below.  |
+| Name   | Type       | Required |
+| ------ | ---------- | -------- |
+| driver | web driver | no       |
 
 Possible values:
 
@@ -37,9 +37,9 @@ Possible values:
 
 ---
 
-| Name               | Type   | Required | Description |
-| ------------------ | ------ | -------- | ----------- |
-| automation_options | object | yes      | See below.  |
+| Name               | Type   | Required |
+| ------------------ | ------ | -------- |
+| automation_options | object | yes      |
 
 Possible values:
 
@@ -56,9 +56,9 @@ Possible values:
 
 ---
 
-| Name                    | Type | Required | Description |
-| ----------------------- | ---- | -------- | ----------- |
-| chrome_driver_arguments | list | no       | See below.  |
+| Name                    | Type | Required |
+| ----------------------- | ---- | -------- |
+| chrome_driver_arguments | list | no       |
 
 **Ignore this parameter if you are not choosing to use the default 'chrome' driver**
 
@@ -72,5 +72,59 @@ Possible values:
 - `'--disable-dev-shm-usage'`
 
 Click this link to view all possible arguments: https://chromedriver.chromium.org/capabilities
+
+---
+
+## Methods
+
+**This method is both public and private, though it really should only be used by the class**
+
+```Python
+locate_html_element(self, driver, element, selector, wait_seconds=30)
+```
+
+---
+
+| Name   | Type       | Required |
+| ------ | ---------- | -------- |
+| driver | web driver | yes      |
+
+Possible values:
+
+- A web driver (Chrome, FireFox, etc)
+
+---
+
+| Name    | Type   | Required |
+| ------- | ------ | -------- |
+| element | string | yes      |
+
+Possible values:
+
+- Id selector of an HTML element
+- Class selector of an HTML element
+
+---
+
+| Name     | Type          | Required |
+| -------- | ------------- | -------- |
+| selector | Module import | yes      |
+
+First install selenium
+
+```bash
+pip install selenium
+```
+
+Then import By
+
+```Python
+from selenium.webdriver.common.by import By
+```
+
+Possible values:
+
+- By.ID
+- By.CLASS_NAME
 
 ---
