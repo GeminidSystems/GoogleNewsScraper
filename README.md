@@ -131,18 +131,17 @@ Possible values:
 
 ```Python
 GoogleNewsScraper.scrape()
+```
 
-Begins the scraping process \and Returns a two\-dimensional list (each list contains multiple objects, with each object representing one article)
+Begins the scraping process \and Returns a two-dimensional list (each list contains multiple objects, with each object representing one article)
 
 **Here \is an example of what type of data a single article-object will contain:**
 
 - `'description'`: The preview description of the news article
 - `'title'`: The title of the news article
-- `'source'`: The source of news \article (New York Times, \for instance)
+- `'source'`: The source of news article (New York Times, for instance)
 - `'image_url'`: The url of the preview news article image
 - `'article_link'`: A link to the news article
 - `'time_published_ago'`: A datetime string that represents the date of when the article was published
-
-```
 
 ---
