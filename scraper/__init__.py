@@ -191,5 +191,3 @@ class GoogleNewsScraper:
         self.driver.quit()
 
         return data
-
-
