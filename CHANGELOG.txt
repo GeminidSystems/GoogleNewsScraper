@@ -9,3 +9,6 @@ Change Log
 
 0.0.3 (8/4/21)
 - Fixed chromedriver
+
+0.0.4 (8/5/21)
+- Added new scraping features 

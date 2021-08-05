@@ -13,9 +13,7 @@ pip install GoogleNewsScraper
 ## Importing
 
 ```Python
-import importlib
-
-GoogleNewsScraper = importlib.import_module('google-news-scraper').GoogleNewsScraper
+from GoogleNewsScraper import GoogleNewsScraper
 ```
 
 ## Instantiating Scraper
