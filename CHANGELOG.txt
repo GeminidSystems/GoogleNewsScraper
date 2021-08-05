@@ -12,3 +12,7 @@ Change Log
 
 0.0.4 (8/5/21)
 - Added new scraping features 
+
+0.0.5 (8/5/21)
+- Refactoring code 
+

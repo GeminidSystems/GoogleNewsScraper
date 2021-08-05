@@ -19,7 +19,7 @@ from GoogleNewsScraper import GoogleNewsScraper
 ## Instantiating Scraper
 
 ```Python
-GoogleNewsScraper(driver, date_range, pages, pagination_pause_per_page, driver_options)
+GoogleNewsScraper(driver, driver_options)
 ```
 
 **Constructor Parameters**
@@ -32,39 +32,6 @@ Possible values:
 
 - `'chrome'`: The driver will default to use this package's chrome driver
 - A path to some driver (FireFox, for instance) stored on the user's system
-
----
-
-| Name       | Type | Required |
-| ---------- | ---- | -------- |
-| date_range | str  | no       |
-
-**Description**: Filters how recent data should be. Can be any of the following (defaults to 'Past 24 hours'):
-
-Possible values:
-
-- Past hours
-- Past 24 hours
-- Past week
-- Past month
-- Past year
-- Archives
-
----
-
-| Name  | Type       | Required |
-| ----- | ---------- | -------- |
-| pages | str or int | no       |
-
-**Descrption**: Number of pages that should be scraped (defaults to 'max').
-
----
-
-| Name                      | Type | Required |
-| ------------------------- | ---- | -------- |
-| pagination_pause_per_page | int  | no       |
-
-**Descrption**: Waits a certain amount of seconds before a new page is scraped (defaults to 2). Time may have to be increased if Google prevents you from scraping all pages.
 
 ---
 
@@ -165,7 +132,7 @@ Description:
 ---
 
 ```Python
-GoogleNewsScraper().scrape(search_text, cb)
+GoogleNewsScraper(...args).search(search_text, date_range, pages, pagination_pause_per_page, cb)
 ```
 
 ---
@@ -174,9 +141,42 @@ GoogleNewsScraper().scrape(search_text, cb)
 | ----------- | ---- | -------- |
 | search_text | str  | yes      |
 
+**Descrption**: A series of word(s) that will be inputted into the Google search engine
+
 ---
 
-**Descrption**: A series of word(s) that will be inputted into the Google search engine
+| Name       | Type | Required |
+| ---------- | ---- | -------- |
+| date_range | str  | no       |
+
+**Description**: Filters how recent data should be (defaults to 'Past 24 hours')
+
+Possible values:
+
+- Past hours
+- Past 24 hours
+- Past week
+- Past month
+- Past year
+- Archives
+
+---
+
+| Name  | Type       | Required |
+| ----- | ---------- | -------- |
+| pages | str or int | no       |
+
+**Descrption**: Number of pages that should be scraped (defaults to 'max').
+
+---
+
+| Name                      | Type | Required |
+| ------------------------- | ---- | -------- |
+| pagination_pause_per_page | int  | no       |
+
+**Descrption**: Waits a certain amount of seconds before a new page is scraped (defaults to 2). Time may have to be increased if Google prevents you from scraping all pages.
+
+---
 
 | Name | Type     | Required |
 | ---- | -------- | -------- |
@@ -192,7 +192,7 @@ GoogleNewsScraper().scrape(search_text, cb)
 def handle_page_data(page_data: list):
   # Do something with page_data
 
-GoogleNewsScraper().scrape(get_page_data)
+GoogleNewsScraper(...args).search(...args, handle_page_data)
 ```
 
 **NOTE**:
