@@ -155,3 +155,5 @@ class GoogleNewsScraper:
 
         if not cb:
             return data
+
+            

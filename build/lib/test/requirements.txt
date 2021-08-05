@@ -1,2 +1,0 @@
-google-news-scraper
-news_scraper
