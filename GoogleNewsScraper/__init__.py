@@ -28,24 +28,21 @@ class Error(Exception):
 
 
 class GoogleNewsScraper:
-    def __init__(self, driver, keywords: str, date_range: str = 'Past 24 hours', pages: int or str = 'max', pagination_pause_per_page: int = 2, driver_options=[]):
-        locals().keys
-
+    def __init__(self, driver='chrome', date_range: str = 'Past 24 hours', pages: int or str = 'max', pagination_pause_per_page: int = 2, driver_options=[]):
         if driver == 'chrome':
             self.driver = get_chrome_driver(driver_options)
         else:
             self.driver = driver
 
         self.__validate_automation_options(
-            [keywords, date_range, pages, pagination_pause_per_page])
+            [date_range, pages, pagination_pause_per_page])
 
-        self.keywords = keywords
         self.date_range = date_range
         self.pages = pages
         self.pagination_pause_per_page = pagination_pause_per_page
 
     def __validate_automation_options(self, automation_options: list):
-        for i, data_type in enumerate([str, str, [int, str], int]):
+        for i, data_type in enumerate([str, [int, str], int]):
             if type(data_type) == list:
                 if not (type(automation_options[i]) in data_type):
                     raise Error("Argument '{}' must be of types {} or {}".format(
@@ -142,12 +139,16 @@ class GoogleNewsScraper:
                 "WebDriverWait could not locate element '{}'. Increase the wait_seconds param; if the element is still unable to be found, then it may not exist on the page".format(element))
         return element
 
-    def scrape(self, cb=False):
+    def search(self, search_text: str, cb=False):
         if str(type(cb)) != "<class 'function'>" and cb:
-            raise Error("Property 'cb' must be of type function or False")
+            raise Error("Parameter 'cb' must be of type function or False")
+
+        if type(search_text) != str:
+            raise Error(
+                "Parameter 'search_text' must be of type function or False")
 
         self.driver.get(
-            'https://www.google.com/search?q=' + self.keywords.replace(' ', '+') + '&source=lnms&tbm=nws')
+            'https://www.google.com/search?q=' + search_text.replace(' ', '+') + '&source=lnms&tbm=nws')
 
         data = self.__paginate(self.driver, cb if cb else False)
 
@@ -155,5 +156,3 @@ class GoogleNewsScraper:
 
         if not cb:
             return data
-
-            

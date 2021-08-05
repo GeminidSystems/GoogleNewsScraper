@@ -19,7 +19,7 @@ from GoogleNewsScraper import GoogleNewsScraper
 ## Instantiating Scraper
 
 ```Python
-GoogleNewsScraper(driver, keywords, date_range, pages, pagination_pause_per_page, driver_options)
+GoogleNewsScraper(driver, date_range, pages, pagination_pause_per_page, driver_options)
 ```
 
 **Constructor Parameters**
@@ -32,14 +32,6 @@ Possible values:
 
 - `'chrome'`: The driver will default to use this package's chrome driver
 - A path to some driver (FireFox, for instance) stored on the user's system
-
----
-
-| Name     | Type | Required |
-| -------- | ---- | -------- |
-| keywords | str  | yes      |
-
-**Description**: A collection of word(s) that will be inputted into Google News.
 
 ---
 
@@ -173,10 +165,18 @@ Description:
 ---
 
 ```Python
-GoogleNewsScraper().scrape(cb)
+GoogleNewsScraper().scrape(search_text, cb)
 ```
 
 ---
+
+| Name        | Type | Required |
+| ----------- | ---- | -------- |
+| search_text | str  | yes      |
+
+---
+
+**Descrption**: A series of word(s) that will be inputted into the Google search engine
 
 | Name | Type     | Required |
 | ---- | -------- | -------- |
