@@ -19,7 +19,7 @@ from GoogleNewsScraper import GoogleNewsScraper
 ## Instantiating Scraper
 
 ```Python
-GoogleNewsScraper(driver, driver_options)
+GoogleNewsScraper(driver)
 ```
 
 **Constructor Parameters**
@@ -33,27 +33,6 @@ Possible values:
 - `'chrome'`: The driver will default to use this package's chrome driver
 - A path to some driver (FireFox, for instance) stored on the user's system
 
----
-
-| Name           | Type | Required |
-| -------------- | ---- | -------- |
-| driver_options | list | no       |
-
-**Ignore this parameter if you are not choosing to use the default 'chrome' driver**
-
-Possible values (ONLY for Chrome driver):
-
-- `'--headless'`
-- `'--ignore-certificate-errors'`
-- `'--incognito'`
-- `'--no-sandbox'`
-- `'--disable-setuid-sandbox'`
-- `'--disable-dev-shm-usage'`
-
-Click this link to view all possible arguments (ONLY for Chrome driver): https://chromedriver.chromium.org/capabilities
-
----
-
 ## Methods
 
 **This method is both public and private, though it really should only be used by the class**
@@ -62,32 +41,14 @@ Click this link to view all possible arguments (ONLY for Chrome driver): https:/
 locate_html_element(self, driver, element, selector, wait_seconds)
 ```
 
----
+| Name         | Type          | Required | Description                                                          |
+| ------------ | ------------- | -------- | -------------------------------------------------------------------- |
+| driver       | web driver    | yes      | A web driver (Chrome, FireFox, etc)                                  |
+| element      | string        | yes      | Id or class selector of an HTML element                              |
+| selector     | Module import | yes      | see below                                                            |
+| wait_seconds | int           | no       | Waits a certain number of seconds in order to locate an HTML element |
 
-| Name   | Type       | Required |
-| ------ | ---------- | -------- |
-| driver | web driver | yes      |
-
-Possible values:
-
-- A web driver (Chrome, FireFox, etc)
-
----
-
-| Name    | Type   | Required |
-| ------- | ------ | -------- |
-| element | string | yes      |
-
-Possible values:
-
-- Id selector of an HTML element
-- Class selector of an HTML element
-
----
-
-| Name     | Type          | Required |
-| -------- | ------------- | -------- |
-| selector | Module import | yes      |
+**To configure the 'selector' param**:
 
 First install selenium
 
@@ -114,79 +75,19 @@ Possible values:
 
 ---
 
-| Name         | Type   | Required |
-| ------------ | ------ | -------- |
-| wait_seconds | number | no       |
-
-**default**: `30`
-
-Description:
-
-- Waits a certain number of seconds in order to locate an HTML element
-- If an element exists on the page, it will be located instantaneously
-- If an element does not yet exist, (if it will appear once a request is made, for instance)
-- wait_seconds may have to be increased depending on how long it takes for an element to appear
-
-**please note**: 30 seconds is plenty; this time would rarely have to be increased
-
----
-
 ```Python
 GoogleNewsScraper(...args).search(search_text, date_range, pages, pagination_pause_per_page, cb)
 ```
 
----
+| Name                      | Type       | Required | Description                                                                                                                                                   |
+| ------------------------- | ---------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| search_text               | str        | yes      | A series of word(s) that will be inputted into the Google search engine                                                                                       |
+| date_range                | str        | no       | Past hours, Past 24 hours, Past week, Past month, Past year, Archives                                                                                         |
+| pages                     | str or int | no       | Number of pages that should be scraped (defaults to 'max')                                                                                                    |
+| pagination_pause_per_page | int        | no       | Waits a certain amount of seconds before a new page is scraped (defaults to 2). Time may have to be increased if Google prevents you from scraping all pages. |
+| cb                        | function   | no       | Will return all article data on a single page for every page scraped (defaults to False)                                                                      |
 
-| Name        | Type | Required |
-| ----------- | ---- | -------- |
-| search_text | str  | yes      |
-
-**Descrption**: A series of word(s) that will be inputted into the Google search engine
-
----
-
-| Name       | Type | Required |
-| ---------- | ---- | -------- |
-| date_range | str  | no       |
-
-**Description**: Filters how recent data should be (defaults to 'Past 24 hours')
-
-Possible values:
-
-- Past hours
-- Past 24 hours
-- Past week
-- Past month
-- Past year
-- Archives
-
----
-
-| Name  | Type       | Required |
-| ----- | ---------- | -------- |
-| pages | str or int | no       |
-
-**Descrption**: Number of pages that should be scraped (defaults to 'max').
-
----
-
-| Name                      | Type | Required |
-| ------------------------- | ---- | -------- |
-| pagination_pause_per_page | int  | no       |
-
-**Descrption**: Waits a certain amount of seconds before a new page is scraped (defaults to 2). Time may have to be increased if Google prevents you from scraping all pages.
-
----
-
-| Name | Type     | Required |
-| ---- | -------- | -------- |
-| cb   | function | no       |
-
-**Descrption**:
-
-- Will return all article data on a single page for every page scraped (defaults to False)
-
-- **Example**:
+- **Example using 'cb' paramater**:
 
 ```Python
 def handle_page_data(page_data: list):

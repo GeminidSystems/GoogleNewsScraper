@@ -9,14 +9,13 @@ from selenium.webdriver.common.by import By
 from selenium import webdriver
 
 
-def get_chrome_driver(arguments: list):
+def get_chrome_driver():
     driver_path = os.path.abspath(os.path.join(os.path.dirname(
         __file__), 'chromedriver/chromedriver'))
 
     options = webdriver.ChromeOptions()
 
-    for arg in arguments:
-        options.add_argument(arg)
+    options.add_argument('--headless')
 
     driver = webdriver.Chrome(driver_path, options=options)
 
@@ -28,9 +27,9 @@ class Error(Exception):
 
 
 class GoogleNewsScraper:
-    def __init__(self, driver='chrome', driver_options=[]):
+    def __init__(self, driver='chrome'):
         if driver == 'chrome':
-            self.driver = get_chrome_driver(driver_options)
+            self.driver = get_chrome_driver()
         else:
             self.driver = driver
 
