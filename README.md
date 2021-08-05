@@ -37,32 +37,54 @@ Possible values:
 
 ---
 
-| Name               | Type   | Required |
-| ------------------ | ------ | -------- |
-| automation_options | object | yes      |
+| Name     | Type | Required |
+| -------- | ---- | -------- |
+| keywords | str  | yes      |
 
-Possible values:
-
-- `keywords` : A series of words that will be inputted into Google News.
-- `date_range` : Filters how recent data should be. Can be any of the following (defaults to 'Past 24 hours'):
-  - Past hours
-  - Past 24 hours
-  - Past week
-  - Past month
-  - Past year
-  - Archives
-- `pages` : Number of pages that should be scraped (defaults to 'max').
-- `pagination_pause_per_page` : Waits a certain amount of seconds before a new page is scraped (defaults to 2). Time may have to be increased if Google prevents you from scraping all pages.
+**Description**: A collection of word(s) that will be inputted into Google News.
 
 ---
 
-| Name                    | Type | Required |
-| ----------------------- | ---- | -------- |
-| chrome_driver_arguments | list | no       |
+| Name       | Type | Required |
+| ---------- | ---- | -------- |
+| date_range | str  | no       |
+
+**Description**: Filters how recent data should be. Can be any of the following (defaults to 'Past 24 hours'):
+
+Possible values:
+
+- Past hours
+- Past 24 hours
+- Past week
+- Past month
+- Past year
+- Archives
+
+---
+
+| Name  | Type       | Required |
+| ----- | ---------- | -------- |
+| pages | str or int | no       |
+
+**Descrption**: Number of pages that should be scraped (defaults to 'max').
+
+---
+
+| Name                      | Type | Required |
+| ------------------------- | ---- | -------- |
+| pagination_pause_per_page | int  | no       |
+
+**Descrption**: Waits a certain amount of seconds before a new page is scraped (defaults to 2). Time may have to be increased if Google prevents you from scraping all pages.
+
+---
+
+| Name           | Type | Required |
+| -------------- | ---- | -------- |
+| driver_options | list | no       |
 
 **Ignore this parameter if you are not choosing to use the default 'chrome' driver**
 
-Possible values:
+Possible values (ONLY for Chrome driver):
 
 - `'--headless'`
 - `'--ignore-certificate-errors'`
@@ -71,7 +93,7 @@ Possible values:
 - `'--disable-setuid-sandbox'`
 - `'--disable-dev-shm-usage'`
 
-Click this link to view all possible arguments: https://chromedriver.chromium.org/capabilities
+Click this link to view all possible arguments (ONLY for Chrome driver): https://chromedriver.chromium.org/capabilities
 
 ---
 
@@ -153,14 +175,34 @@ Description:
 ---
 
 ```Python
-GoogleNewsScraper.scrape()
+GoogleNewsScraper().scrape(cb)
 ```
 
-- Begins the scraping process and Returns a two-dimensional list
-- Each list represents a single page, and contains multiple objects
-- Each object representing one article
+---
 
-**Example of what type of data a single article-object will contain:**
+| Name | Type     | Required |
+| ---- | -------- | -------- |
+| cb   | function | no       |
+
+**Descrption**:
+
+- Will return all article data on a single page for every page scraped (defaults to False)
+
+- **Example**:
+
+```Python
+def handle_page_data(page_data: list):
+  # Do something with page_data
+
+GoogleNewsScraper().scrape(get_page_data)
+```
+
+**NOTE**:
+
+- If no argument is provided fro 'cb,' the scrape method will return a two-dimensional list
+- Each list will contain an object of news article data for every news article on that page
+
+**Example of what type of data that a single article-object will contain:**
 
 - `'description'`: The preview description of the news article
 - `'title'`: The title of the news article
