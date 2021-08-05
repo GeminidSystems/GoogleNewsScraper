@@ -22,6 +22,20 @@ def get_chrome_driver():
     return driver
 
 
+def create_id(date_time_str, source, title):
+    try:
+        id = str(date_time_str).replace('-', '').split(' ')[0]
+        id += source.upper().replace('HTTPS://', '').replace('WWW.',
+                                                             '').replace('THE', '').replace(' ', '')[:3]
+
+        for word in title.split(' '):
+            if word[0].isalnum():
+                id += word[0]
+        return id
+    except:
+        return None
+
+
 class Error(Exception):
     pass
 
@@ -60,15 +74,20 @@ class GoogleNewsScraper:
         return datetime.now() - timedelta(weeks=int((int(time_number) * 52)))
 
     def __get_article_data(self, driver, i: int):
+        date_time = self.__get_article_date(driver.find_elements_by_xpath(
+            ".//span[@class='WG9SHc']")[i].text)
+        source = driver.find_elements_by_class_name('XTjFC')[i].text
+        title = driver.find_elements_by_class_name('JheGif')[i].text
+
         return {
+            'id': create_id(date_time, source, title),
             'description': driver.find_elements_by_class_name('Y3v8qd')[i].text,
-            'title': driver.find_elements_by_class_name('JheGif')[i].text,
-            'source': driver.find_elements_by_class_name('XTjFC')[i].text,
+            'title': title,
+            'source': source,
             'image_url': driver.find_elements_by_class_name('rISBZc')[i].get_attribute('src'),
-            'article_link': driver.find_elements_by_xpath(
+            'url': driver.find_elements_by_xpath(
                 ".//div[@class='dbsr']/a")[i].get_attribute('href'),
-            'time_published_ago': self.__get_article_date(driver.find_elements_by_xpath(
-                ".//span[@class='WG9SHc']")[i].text)
+            'date_time': date_time
         }
 
     def __get_next_page_btn(self, driver):

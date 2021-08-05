@@ -103,11 +103,12 @@ GoogleNewsScraper(...args).search(...args, handle_page_data)
 
 **Example of what type of data that a single article-object will contain:**
 
+- `'id'`: A unique id for every article data object
 - `'description'`: The preview description of the news article
 - `'title'`: The title of the news article
 - `'source'`: The source of news article (New York Times, for instance)
 - `'image_url'`: The url of the preview news article image
-- `'article_link'`: A link to the news article
-- `'time_published_ago'`: A datetime string that represents the date of when the article was published
+- `'url'`: A link to the news article
+- `'date_time'`: A datetime string that represents the date of when the article was published
 
 ---
