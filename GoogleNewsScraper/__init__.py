@@ -28,53 +28,31 @@ class Error(Exception):
 
 
 class GoogleNewsScraper:
-    def __init__(self, driver, automation_options={}, chrome_driver_arguments=[]):
+    def __init__(self, driver, keywords: str, date_range: str = 'Past 24 hours', pages: int or str = 'max', pagination_pause_per_page: int = 2, driver_options=[]):
+        locals().keys
+
         if driver == 'chrome':
-            self.driver = get_chrome_driver(chrome_driver_arguments)
+            self.driver = get_chrome_driver(driver_options)
         else:
             self.driver = driver
 
-        default_automation_options = self.__validate_automation_options(
-            automation_options)
+        self.__validate_automation_options(
+            [keywords, date_range, pages, pagination_pause_per_page])
 
-        self.keywords = default_automation_options['keywords']
-        self.date_range = default_automation_options['date_range']
-        self.pages = default_automation_options['pages']
-        self.pagination_pause_per_page = default_automation_options['pagination_pause_per_page']
+        self.keywords = keywords
+        self.date_range = date_range
+        self.pages = pages
+        self.pagination_pause_per_page = pagination_pause_per_page
 
-    def __validate_automation_options(self, automation_options: dict):
-        default_automation_options = {
-            'keywords': None,
-            'date_range': 'Past 24 hours',
-            'pages': 'max',
-            'pagination_pause_per_page': 2
-        }
-
-        default_automation_options.update(automation_options)
-
-        if not default_automation_options['keywords']:
-            raise Error("Property 'keywords' is required")
-
-        for key in automation_options:
-            if not key in default_automation_options:
-                raise Error(
-                    'Invalid property: {}'.format(key))
-
-        values = list(default_automation_options.values())
-        keys = list(default_automation_options.keys())
-
-        for i, t in enumerate([str, str, [int, str], int]):
-            val = type(values[i])
-
-            if type(t) == list:
-                if(val not in t):
-                    raise Error(
-                        "Key '{}' type must be of either the following: {}".format(keys[i], t))
-            elif val != t:
-                raise Error(
-                    "Key '{}' must be of type '{}'".format(keys[i], t))
-
-        return default_automation_options
+    def __validate_automation_options(self, automation_options: list):
+        for i, data_type in enumerate([str, str, [int, str], int]):
+            if type(data_type) == list:
+                if not (type(automation_options[i]) in data_type):
+                    raise Error("Argument '{}' must be of types {} or {}".format(
+                        automation_options[i], data_type[0], data_type[1]))
+            elif type(automation_options[i]) != data_type:
+                raise Error("Argument '{}' must be of type {}".format(
+                    automation_options[i], data_type))
 
     def __get_article_date(self, time_published_ago: str):
         time_type = time_published_ago.split(' ')[1]
@@ -131,26 +109,27 @@ class GoogleNewsScraper:
         # Will click on a new URL and automation will begin from there
         driver.find_element_by_link_text(self.date_range).click()
 
-    def __paginate(self, driver):
+    def __paginate(self, driver, cb):
         self.__set_date_range(driver)
 
-        pages = []
         page_count = 0
+        page_data = []
 
         # __get_next_page_btn is called multiple times here because the button, even though its id is the same for every page,
-        # must be re-initialized for every new page; otherwise it will not exist and selenium will throw an error
+        # must be re-initialized for every new page; otherwise, it will not exist and selenium will throw an error
         while self.__get_next_page_btn(driver) and (True if page_count == 'max' else page_count != self.pages):
             page = []
 
             for i in range(0, len(driver.find_elements_by_class_name('JheGif'))):
                 page.append(self.__get_article_data(driver, i))
-            pages.append(page)
+            cb(page) if cb else page_data.append(page)
             page_count += 1
 
             time.sleep(self.pagination_pause_per_page)
             self.__get_next_page_btn(driver).click()
 
-        return pages
+        if not cb:
+            return page_data
 
     def locate_html_element(self, driver, element: str, selector: By, wait_seconds=30):
         try:
@@ -163,12 +142,16 @@ class GoogleNewsScraper:
                 "WebDriverWait could not locate element '{}'. Increase the wait_seconds param; if the element is still unable to be found, then it may not exist on the page".format(element))
         return element
 
-    def scrape(self):
+    def scrape(self, cb=False):
+        if str(type(cb)) != "<class 'function'>" and cb:
+            raise Error("Property 'cb' must be of type function or False")
+
         self.driver.get(
             'https://www.google.com/search?q=' + self.keywords.replace(' ', '+') + '&source=lnms&tbm=nws')
 
-        data = self.__paginate(self.driver)
+        data = self.__paginate(self.driver, cb if cb else False)
 
         self.driver.quit()
 
-        return data
+        if not cb:
+            return data
