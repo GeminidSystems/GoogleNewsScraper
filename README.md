@@ -19,7 +19,7 @@ from GoogleNewsScraper import GoogleNewsScraper
 ## Instantiating Scraper
 
 ```Python
-GoogleNewsScraper(driver, automation_options, chrome_driver_arguments)
+GoogleNewsScraper(driver, keywords, date_range, pages, pagination_pause_per_page, driver_options)
 ```
 
 **Constructor Parameters**
