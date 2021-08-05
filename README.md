@@ -1,11 +1,11 @@
-# google-news-scraper
+# googlenewsscraper
 
 ## Getting Started
 
 ### Installation
 
 ```bash
-pip install google-news-scraper
+pip install GoogleNewsScraper
 ```
 
 # Reference

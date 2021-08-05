@@ -1,34 +1,23 @@
-from setuptools import setup, find_packages
+import setuptools
 
-classifiers = [
-    'Development Status :: 5 - Production/Stable'
-]
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
-keywords = [
-    'web scraper',
-    'web crawler',
-    'crawler',
-    'scraper',
-    'google news scraper',
-    'google news crawler',
-    'google news automation',
-    'google news automator',
-    'google',
-    'google news'
-]
-
-setup(
-    name='google_news_scraper',
-    version='0.0.1',
+setuptools.setup(
+    name='GoogleNewsScraper',
+    version='0.0.3',
     description='Scrapes Google News article data',
-    Long_description=open('README.txt').read() + '\n\n' +
-    open('CHANGELOG.txt').read(),
-    url='https://pypi.org/project/google-news-scraper/',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    url='https://github.com/GeminidSystems/google_news_scraper',
     author='Geminid Systems',
-    author_email='',
-    License='MIT',
-    classifiers=classifiers,
-    keywords=keywords,
-    packages=find_packages(),
-    install_requires=''
+    author_email='dev@geminidsystems.com',
+    packages=setuptools.find_packages(),
+    include_package_data=True,
+    install_requires=['selenium'],
+    classifiers=[
+        "Programming Language :: Python :: 3.6",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
 )

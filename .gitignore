@@ -1,0 +1,5 @@
+dist
+__pycache__/
+GoogleNewsScraper.egg-info/
+.DS_Store
+package.sh

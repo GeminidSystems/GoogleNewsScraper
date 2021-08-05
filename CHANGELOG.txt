@@ -1,8 +1,11 @@
 Change Log
 ==========
 
-0.0.1 (7/27/21)
-- First Release 
+0.0.1 (8/4/21)
+- First Release
 
-0.0.1 (7/27/21)
-- Second Release
+0.0.2 (8/4/21)
+- Fixed chromedriver
+
+0.0.3 (8/4/21)
+- Fixed chromedriver
