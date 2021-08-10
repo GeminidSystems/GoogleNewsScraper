@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='GoogleNewsScraper',
-    version='0.0.6',
+    version='0.0.7',
     description='Scrapes Google News article data',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -21,3 +21,4 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
 )
+ 

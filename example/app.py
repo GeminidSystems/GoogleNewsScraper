@@ -12,5 +12,5 @@ def get_article_data_with_cb():
     GoogleNewsScraper().search(search_text='climate change', pages=5, cb=handle_page_data)
 
 
-get_article_data_with_cb()
+get_article_data_without_cb()
 get_article_data_with_cb()

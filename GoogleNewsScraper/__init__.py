@@ -22,20 +22,6 @@ def get_chrome_driver():
     return driver
 
 
-def create_id(date_time_str, source, title):
-    try:
-        id = str(date_time_str).replace('-', '').split(' ')[0]
-        id += source.upper().replace('HTTPS://', '').replace('WWW.',
-                                                             '').replace('THE', '').replace(' ', '')[:3]
-
-        for word in title.split(' '):
-            if word[0].isalnum():
-                id += word[0]
-        return id
-    except:
-        return None
-
-
 class Error(Exception):
     pass
 
@@ -73,6 +59,19 @@ class GoogleNewsScraper:
             return datetime.now() - timedelta(weeks=int(time_number))
         return datetime.now() - timedelta(weeks=int((int(time_number) * 52)))
 
+    def __create_id(date_time_str, source, title):
+        try:
+            id = str(date_time_str).replace('-', '').split(' ')[0]
+            id += source.upper().replace('HTTPS://', '').replace('WWW.',
+                                                                 '').replace('THE', '').replace(' ', '')[:3]
+
+            for word in title.split(' '):
+                if word[0].isalnum():
+                    id += word[0]
+            return id
+        except:
+            return None
+
     def __get_article_data(self, driver, i: int):
         date_time = self.__get_article_date(driver.find_elements_by_xpath(
             ".//span[@class='WG9SHc']")[i].text)
@@ -80,7 +79,7 @@ class GoogleNewsScraper:
         title = driver.find_elements_by_class_name('JheGif')[i].text
 
         return {
-            'id': create_id(date_time, source, title),
+            'id': self.__create_id(date_time, source, title),
             'description': driver.find_elements_by_class_name('Y3v8qd')[i].text,
             'title': title,
             'source': source,
@@ -170,3 +169,11 @@ class GoogleNewsScraper:
 
         if not cb:
             return data
+
+
+def callback(page_data):
+    print(page_data)
+
+
+GoogleNewsScraper().search(search_text='climate change', pages=10,
+                           cb=callback, pagination_pause_per_page=2)
