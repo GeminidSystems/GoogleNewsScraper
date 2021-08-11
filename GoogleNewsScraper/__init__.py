@@ -59,7 +59,7 @@ class GoogleNewsScraper:
             return datetime.now() - timedelta(weeks=int(time_number))
         return datetime.now() - timedelta(weeks=int((int(time_number) * 52)))
 
-    def __create_id(date_time_str, source, title):
+    def __create_id(self, date_time_str, source, title):
         try:
             id = str(date_time_str).replace('-', '').split(' ')[0]
             id += source.upper().replace('HTTPS://', '').replace('WWW.',
@@ -169,11 +169,3 @@ class GoogleNewsScraper:
 
         if not cb:
             return data
-
-
-def callback(page_data):
-    print(page_data)
-
-
-GoogleNewsScraper().search(search_text='climate change', pages=10,
-                           cb=callback, pagination_pause_per_page=2)
