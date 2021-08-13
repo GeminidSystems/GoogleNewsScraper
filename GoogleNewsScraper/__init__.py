@@ -3,13 +3,14 @@ from datetime import timedelta
 import time
 import os
 
+from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium import webdriver
 
 
-def get_chrome_driver():
+def get_chrome_driver() -> WebDriver:
     driver_path = os.path.abspath(os.path.join(os.path.dirname(
         __file__), 'chromedriver/chromedriver'))
 
@@ -33,7 +34,7 @@ class GoogleNewsScraper:
         else:
             self.driver = driver
 
-    def __validate_automation_options(self, automation_options: list):
+    def __validate_automation_options(self, automation_options: list) -> None:
         for i, data_type in enumerate([str, str, [int, str], int]):
             if type(data_type) == list:
                 if not (type(automation_options[i]) in data_type):
@@ -43,7 +44,7 @@ class GoogleNewsScraper:
                 raise Error("Argument '{}' must be of type {}".format(
                     automation_options[i], data_type))
 
-    def __get_article_date(self, time_published_ago: str):
+    def __get_article_date(self, time_published_ago: str) -> datetime:
         time_type = time_published_ago.split(' ')[1]
         time_number = time_published_ago.split(' ')[0]
 
@@ -59,7 +60,7 @@ class GoogleNewsScraper:
             return datetime.now() - timedelta(weeks=int(time_number))
         return datetime.now() - timedelta(weeks=int((int(time_number) * 52)))
 
-    def __create_id(self, date_time_str, source, title):
+    def __create_id(self, date_time_str: datetime, source: str, title: str) -> str or None:
         try:
             id = str(date_time_str).replace('-', '').split(' ')[0]
             id += source.upper().replace('HTTPS://', '').replace('WWW.',
@@ -72,7 +73,7 @@ class GoogleNewsScraper:
         except:
             return None
 
-    def __get_article_data(self, driver, i: int):
+    def __get_article_data(self, driver, i: int) -> dict:
         date_time = self.__get_article_date(driver.find_elements_by_xpath(
             ".//span[@class='WG9SHc']")[i].text)
         source = driver.find_elements_by_class_name('XTjFC')[i].text
@@ -97,7 +98,7 @@ class GoogleNewsScraper:
                 "Cannot get next page! Element 'pnnext' could not be located. Try increasing the 'pagination_pause_per_page' param")
         return btn
 
-    def __set_date_range(self, driver):
+    def __set_date_range(self, driver) -> None:
         driver.execute_script("""
         const menu = document.getElementById('hdtbMenus');
         menu.classList.remove('p4DDCd');
@@ -116,7 +117,7 @@ class GoogleNewsScraper:
         # Will click on a new URL and automation will begin from there
         driver.find_element_by_link_text(self.date_range).click()
 
-    def __paginate(self, driver, cb):
+    def __paginate(self, driver, cb) -> None:
         self.__set_date_range(driver)
 
         page_count = 0
@@ -149,7 +150,7 @@ class GoogleNewsScraper:
                 "WebDriverWait could not locate element '{}'. Increase the wait_seconds param; if the element is still unable to be found, then it may not exist on the page".format(element))
         return element
 
-    def search(self, search_text: str, date_range: str = 'Past 24 hours', pages: int or str = 'max', pagination_pause_per_page: int = 2, cb=False):
+    def search(self, search_text: str, date_range: str = 'Past 24 hours', pages: int or str = 'max', pagination_pause_per_page: int = 2, cb=False) -> list or None:
         self.__validate_automation_options([
             search_text, date_range, pages, pagination_pause_per_page])
 

@@ -76,7 +76,7 @@ Possible values:
 ---
 
 ```Python
-GoogleNewsScraper(...args).search(search_text, date_range, pages, pagination_pause_per_page, cb)
+GoogleNewsScraper(...args).search(search_text, date_range, pages, pagination_pause_per_page, cb) -> list or None
 ```
 
 | Name                      | Type       | Required | Description                                                                                                                                                   |
