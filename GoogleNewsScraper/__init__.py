@@ -147,7 +147,7 @@ class GoogleNewsScraper:
             )
         except:
             raise Error(
-                "WebDriverWait could not locate element '{}'. Increase the wait_seconds param; if the element is still unable to be found, then it may not exist on the page".format(element))
+                "WebDriverWait could not locate element '{}'. Increase the 'pagination_pause_per_page param'; if the element is still unable to be found, then it may not exist on the page".format(element))
         return element
 
     def search(self, search_text: str, date_range: str = 'Past 24 hours', pages: int or str = 'max', pagination_pause_per_page: int = 2, cb=False) -> list or None:

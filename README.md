@@ -98,7 +98,7 @@ GoogleNewsScraper(...args).search(...args, handle_page_data)
 
 **NOTE**:
 
-- If no argument is provided fro 'cb,' the scrape method will return a two-dimensional list
+- If no argument is provided for 'cb,' the scrape method will return a two-dimensional list
 - Each list will contain an object of news article data for every news article on that page
 
 **Example of what type of data that a single article-object will contain:**
