@@ -95,7 +95,7 @@ class GoogleNewsScraper:
 
         if not btn:
             raise Error(
-                "Cannot get next page! Element 'pnnext' could not be located. Try increasing the 'pagination_pause_per_page' param")
+                "Cannot get next page! Element 'pnnext' could not be located. Try increasing the 'pagination_pause_per_page' argument")
         return btn
 
     def __set_date_range(self, driver) -> None:
@@ -147,7 +147,7 @@ class GoogleNewsScraper:
             )
         except:
             raise Error(
-                "WebDriverWait could not locate element '{}'. Increase the 'pagination_pause_per_page param'; if the element is still unable to be found, then it may not exist on the page".format(element))
+                "WebDriverWait could not locate element '{}'. Increase the 'pagination_pause_per_page argument'; if the element is still unable to be found, then it may not exist on the page".format(element))
         return element
 
     def search(self, search_text: str, date_range: str = 'Past 24 hours', pages: int or str = 'max', pagination_pause_per_page: int = 2, cb=False) -> list or None:
