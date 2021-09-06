@@ -29,10 +29,7 @@ class Error(Exception):
 
 class GoogleNewsScraper:
     def __init__(self, driver='chrome'):
-        if driver == 'chrome':
-            self.driver = get_chrome_driver()
-        else:
-            self.driver = driver
+        self.driver = (get_chrome_driver if driver == 'chrome' else driver)
 
     def __validate_automation_options(self, automation_options: list) -> None:
         for i, data_type in enumerate([str, str, [int, str], int]):
