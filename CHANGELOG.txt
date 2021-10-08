@@ -28,3 +28,5 @@ Change Log
 0.0.9 (10/7/21)
 - Updating code to encapsulate Chrome's new HTML structure
 
+1.0.0 (10/8/21)
+- Removing type-checking code for most arguments 
