@@ -1,4 +1,6 @@
-from datetime import date, datetime
+# NOTE: HTML selectors must be updated every 6 weeks in order to encapsulate Chrome's version updates
+
+from datetime import datetime
 from datetime import timedelta
 import time
 import os
@@ -29,17 +31,7 @@ class Error(Exception):
 
 class GoogleNewsScraper:
     def __init__(self, driver='chrome'):
-        self.driver = (get_chrome_driver() if driver == 'chrome' else driver)
-
-    def __validate_automation_options(self, automation_options: list) -> None:
-        for i, data_type in enumerate([str, str, [int, str], int]):
-            if type(data_type) == list:
-                if not (type(automation_options[i]) in data_type):
-                    raise Error("Argument '{}' must be of types {} or {}".format(
-                        automation_options[i], data_type[0], data_type[1]))
-            elif type(automation_options[i]) != data_type:
-                raise Error("Argument '{}' must be of type {}".format(
-                    automation_options[i], data_type))
+        self.driver = get_chrome_driver() if driver == 'chrome' else driver
 
     def __get_article_date(self, time_published_ago: str) -> datetime:
         time_type = time_published_ago.split(' ')[1]
@@ -137,6 +129,14 @@ class GoogleNewsScraper:
         if not cb:
             return page_data
 
+    def __validate_automation_options(self, cb, pages):
+        if str(type(cb)) != "<class 'function'>" and cb:
+            raise Error("Parameter 'cb' must be of type function or False")
+
+        if (type(pages) == str and pages != 'max'):
+            raise Error(
+                "Parameter 'pages' must be of type int or the str 'max'")
+
     def locate_html_element(self, driver, element: str, selector: By, wait_seconds=30):
         try:
             element = WebDriverWait(driver, wait_seconds).until(
@@ -149,15 +149,11 @@ class GoogleNewsScraper:
         return element
 
     def search(self, search_text: str, date_range: str = 'Past 24 hours', pages: int or str = 'max', pagination_pause_per_page: int = 2, cb=False) -> list or None:
-        self.__validate_automation_options([
-            search_text, date_range, pages, pagination_pause_per_page])
-
+        self.__validate_automation_options(cb, pages)
+        
+        self.pagination_pause_per_page = pagination_pause_per_page
         self.date_range = date_range
         self.pages = pages
-        self.pagination_pause_per_page = pagination_pause_per_page
-
-        if str(type(cb)) != "<class 'function'>" and cb:
-            raise Error("Parameter 'cb' must be of type function or False")
 
         self.driver.get(
             'https://www.google.com/search?q=' + search_text.replace(' ', '+') + '&source=lnms&tbm=nws')
