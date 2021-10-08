@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from datetime import timedelta
 import time
 import os
@@ -29,7 +29,7 @@ class Error(Exception):
 
 class GoogleNewsScraper:
     def __init__(self, driver='chrome'):
-        self.driver = (get_chrome_driver if driver == 'chrome' else driver)
+        self.driver = (get_chrome_driver() if driver == 'chrome' else driver)
 
     def __validate_automation_options(self, automation_options: list) -> None:
         for i, data_type in enumerate([str, str, [int, str], int]):
@@ -72,18 +72,18 @@ class GoogleNewsScraper:
 
     def __get_article_data(self, driver, i: int) -> dict:
         date_time = self.__get_article_date(driver.find_elements_by_xpath(
-            ".//span[@class='WG9SHc']")[i].text)
-        source = driver.find_elements_by_class_name('XTjFC')[i].text
-        title = driver.find_elements_by_class_name('JheGif')[i].text
+            ".//p[contains(@class, 'S1FAPd')]//span")[i].text)
+        source = driver.find_elements_by_xpath(
+            ".//div[contains(@class, 'CEMjEf')]//span")[i].text
+        title = driver.find_elements_by_class_name('mCBkyc')[i].text
 
         return {
             'id': self.__create_id(date_time, source, title),
-            'description': driver.find_elements_by_class_name('Y3v8qd')[i].text,
+            'description': driver.find_elements_by_class_name('mCBkyc')[i].text,
             'title': title,
             'source': source,
-            'image_url': driver.find_elements_by_class_name('rISBZc')[i].get_attribute('src'),
-            'url': driver.find_elements_by_xpath(
-                ".//div[@class='dbsr']/a")[i].get_attribute('href'),
+            'image_url': driver.find_elements_by_class_name("rISBZc")[i].get_attribute('src'),
+            'url': driver.find_elements_by_class_name("WlydOe")[i].get_attribute('href'),
             'date_time': date_time
         }
 
@@ -92,7 +92,7 @@ class GoogleNewsScraper:
 
         if not btn:
             raise Error(
-                "Cannot get next page! Element 'pnnext' could not be located. Try increasing the 'pagination_pause_per_page' param")
+                "Cannot get next page! Element 'pnnext' could not be located. Try increasing the 'pagination_pause_per_page' argument")
         return btn
 
     def __set_date_range(self, driver) -> None:
@@ -125,8 +125,9 @@ class GoogleNewsScraper:
         while self.__get_next_page_btn(driver) and (True if page_count == 'max' else page_count != self.pages):
             page = []
 
-            for i in range(0, len(driver.find_elements_by_class_name('JheGif'))):
+            for i in range(0, len(driver.find_elements_by_class_name('mCBkyc'))):
                 page.append(self.__get_article_data(driver, i))
+
             cb(page) if cb else page_data.append(page)
             page_count += 1
 
@@ -144,7 +145,7 @@ class GoogleNewsScraper:
             )
         except:
             raise Error(
-                "WebDriverWait could not locate element '{}'. Increase the 'pagination_pause_per_page param'; if the element is still unable to be found, then it may not exist on the page".format(element))
+                "WebDriverWait could not locate element '{}'. Increase the 'pagination_pause_per_page argument'; if the element is still unable to be found, then it may not exist on the page".format(element))
         return element
 
     def search(self, search_text: str, date_range: str = 'Past 24 hours', pages: int or str = 'max', pagination_pause_per_page: int = 2, cb=False) -> list or None:

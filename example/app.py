@@ -2,7 +2,7 @@ from GoogleNewsScraper import GoogleNewsScraper
 
 
 def get_article_data_without_cb() -> None:
-    print(GoogleNewsScraper).search(search_text='climate change', pages=5)
+    print(GoogleNewsScraper().search(search_text='climate change', pages=5))
 
 
 def get_article_data_with_cb() -> None:
@@ -12,4 +12,5 @@ def get_article_data_with_cb() -> None:
     GoogleNewsScraper().search(search_text='climate change', pages=5, cb=handle_page_data)
 
 
+get_article_data_without_cb()
 get_article_data_with_cb()
