@@ -25,3 +25,6 @@ Change Log
 0.0.8 (8/11/21)
 - Migrating unique id generator into the main class
 
+0.0.9 (10/7/21)
+- Updating code to encapsulate Chrome's new HTML structure
+
