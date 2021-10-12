@@ -93,7 +93,7 @@ GoogleNewsScraper(...args).search(search_text, date_range, pages, pagination_pau
 def handle_page_data(page_data: list):
   # Do something with page_data
 
-GoogleNewsScraper(...args).search(...args, handle_page_data)
+GoogleNewsScraper(...args).search(...args, cb=handle_page_data)
 ```
 
 **NOTE**:
