@@ -10,7 +10,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium import webdriver
-
+from webdriver_manager.chrome import ChromeDriverManager
 
 def get_chrome_driver() -> WebDriver:
     driver_path = os.path.abspath(os.path.join(os.path.dirname(
@@ -20,7 +20,8 @@ def get_chrome_driver() -> WebDriver:
 
     options.add_argument('--headless')
 
-    driver = webdriver.Chrome(driver_path, options=options)
+    #driver = webdriver.Chrome(driver_path, options=options)
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
     return driver
 
@@ -64,18 +65,17 @@ class GoogleNewsScraper:
 
     def __get_article_data(self, driver, i: int) -> dict:
         date_time = self.__get_article_date(driver.find_elements_by_xpath(
-            ".//p[contains(@class, 'S1FAPd')]//span")[i].text)
+            '//div[@id="rso"]/div/g-card[1]/div/div/a/div/div[2]/div[4]/p/span')[i].text)
         source = driver.find_elements_by_xpath(
-            ".//div[contains(@class, 'CEMjEf')]//span")[i].text
-        title = driver.find_elements_by_class_name('mCBkyc')[i].text
-
+            '//div[@id="rso"]/div/g-card[1]/div/div/a/div/div[2]/div[1]/span')[i].text
+        title = driver.find_elements_by_xpath('//div[@id="rso"]/div/g-card[1]/div/div/a/div/div[2]/div[2]')[i].text
         return {
             'id': self.__create_id(date_time, source, title),
-            'description': driver.find_elements_by_class_name('mCBkyc')[i].text,
+            'description': driver.find_elements_by_xpath('//div[@id="rso"]/div/g-card[1]/div/div/a/div/div[2]/div[3]')[i].text,
             'title': title,
             'source': source,
-            'image_url': driver.find_elements_by_class_name("rISBZc")[i].get_attribute('src'),
-            'url': driver.find_elements_by_class_name("WlydOe")[i].get_attribute('href'),
+            'image_url': driver.find_elements_by_xpath('//div[@id="rso"]/div/g-card[1]/div/div/a/div/div[1]/div/g-img/img')[i].get_attribute('src'),
+            'url': driver.find_elements_by_xpath('//div[@id="rso"]/div/g-card[1]/div/div/a')[i].get_attribute('href'),
             'date_time': date_time
         }
 
@@ -95,7 +95,7 @@ class GoogleNewsScraper:
         """)
 
         recent_dropdown = self.locate_html_element(
-            driver, 'KTBKoe', By.CLASS_NAME)
+            driver, '//div[@id="hdtbMenus"]/span[1]/g-popup/div[1]/div/div', By.XPATH)
 
         if not recent_dropdown:
             raise Error(
@@ -117,7 +117,7 @@ class GoogleNewsScraper:
         while self.__get_next_page_btn(driver) and (True if page_count == 'max' else page_count != self.pages):
             page = []
 
-            for i in range(0, len(driver.find_elements_by_class_name('mCBkyc'))):
+            for i in range(0, len(driver.find_elements_by_xpath('//div[@id="rso"]/div/g-card[1]/div/div/a/div/div[2]/div[2]'))):
                 page.append(self.__get_article_data(driver, i))
 
             cb(page) if cb else page_data.append(page)
