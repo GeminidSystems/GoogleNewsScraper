@@ -5,7 +5,7 @@
 ### Installation
 
 ```bash
-pip install GoogleNewsScraper
+$ pip install GoogleNewsScraper
 ```
 
 # Reference
