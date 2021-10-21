@@ -53,7 +53,7 @@ locate_html_element(self, driver, element, selector, wait_seconds)
 First install selenium
 
 ```bash
-pip install selenium
+$ pip install selenium
 ```
 
 Then import By
