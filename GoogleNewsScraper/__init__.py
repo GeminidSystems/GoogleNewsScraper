@@ -65,7 +65,7 @@ class GoogleNewsScraper:
 
     def __get_article_data(self, driver, i: int) -> dict:
         date_time = self.__get_article_date(driver.find_elements_by_xpath(
-            '//div[@id="rso"]/div/g-card[1]/div/div/a/div/div[2]/div[4]/p/span')[i].text)
+            '//div[@id="rso"]/div/g-card[1]/div/div/a/div/div[2]/div[4]/span')[i].text)
         source = driver.find_elements_by_xpath(
             '//div[@id="rso"]/div/g-card[1]/div/div/a/div/div[2]/div[1]/span')[i].text
         title = driver.find_elements_by_xpath('//div[@id="rso"]/div/g-card[1]/div/div/a/div/div[2]/div[2]')[i].text
@@ -95,7 +95,7 @@ class GoogleNewsScraper:
         """)
 
         recent_dropdown = self.locate_html_element(
-            driver, '//div[@id="hdtbMenus"]/span[1]/g-popup/div[1]/div/div', By.XPATH)
+            driver, '//div[@id="hdtbMenus"]/div[@id="tn_1"]/span[1]/g-popup/div[1]/div/div', By.XPATH)
 
         if not recent_dropdown:
             raise Error(
